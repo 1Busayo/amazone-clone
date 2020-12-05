@@ -38,7 +38,7 @@ className="header__option">
   
  
     <span className="header__optionLineOne">
-    {user ? user.email:' Hello Guest'} 
+   Hello {user ? user.email:'Guest'} 
     </span>
     <span className="header__optionLineTwo">
     {user ? 'Sign Out':'Sign In'}
