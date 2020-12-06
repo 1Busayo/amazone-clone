@@ -6,7 +6,9 @@ import './Payment.css';
 import { useStateValue } from './StateProvider';
 import CurrencyFormat from 'react-currency-format';
 import { getBasketTotal } from './reducer'
-import axios from 'axios';
+//import axios from 'axios';
+import instance from './axios';
+
 
 function Payment() {
 const [{basket, user}, dispatch] = useStateValue();
@@ -25,16 +27,29 @@ const[clientSecret, setClientSecret] = useState(true);
 useEffect(() => {
     //generate the special stripe secret which allow us to charge
  const getClientSecret = async () => {
-     const response = await axios ({
-        method : 'post',
-        //Stripe expects the total in a currencies submits
-        url:`/payments/create?total=${getBasketTotal(basket) * 100}`
-});
+    try{
+
+        const response = await instance.post(`/payments/create?total=${getBasketTotal(basket) * 100}`);
+
+  //   const response = await axios({
+         
+//         method : "post",
+//         //Stripe expects the total in a currencies submits
+//         url:`/payments/create?total=${getBasketTotal(basket) * 100}`
+// });
+ console.log('resp', response.data);
+
   setClientSecret(response.data.clientSecret)
+
+} catch(err){
+    console.log(err);
+}
  }
 getClientSecret();
 
 }, [basket])
+
+console.log('THE SECRET IS >>>', clientSecret);
 
 
  const handleSubmit = async (event) => {
@@ -45,11 +60,11 @@ getClientSecret();
        payment_method: {
            card: elements.getElement(CardElement)
        }
-   }).then(({ paymentIntent}) =>{
+   }).then(({ paymentIntent }) =>{
        //paymentIntent = payment confirmation
        setSucceeded (true);
-       setError(null)
-       setProcessing(false)
+       setError(null);
+       setProcessing(false);
        history.replace('/orders')
    })
     }
