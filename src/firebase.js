@@ -2,7 +2,7 @@ import firebase from "firebase";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyA9NW0p-d5cSuSGh4UvVM6o-S8fD0DMqeM",
+    apiKey: "", //___ENTER__APIKEY
     authDomain: "clone-1b332.firebaseapp.com",
     databaseURL: "https://clone-1b332.firebaseio.com",
     projectId: "clone-1b332",
